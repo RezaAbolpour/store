@@ -1,0 +1,64 @@
+src/
+|-- components/
+|   |-- common/
+|   |   |-- Header/
+|   |   |   |-- Header.jsx
+|   |   |   |-- Header.css
+|   |   |
+|   |   |-- Footer/
+|   |       |-- Footer.jsx
+|   |       |-- Footer.css
+|   |
+|   |-- admin/
+|   |   |-- Dashboard/
+|   |   |   |-- Dashboard.jsx
+|   |   |   |-- Dashboard.css
+|   |   |
+|   |   |-- Products/
+|   |       |-- ProductList.jsx
+|   |       |-- ProductList.css
+|   |       |-- ProductForm.jsx
+|   |       |-- ProductForm.css
+|   |
+|   |-- user/
+|       |-- ProductList/
+|       |   |-- ProductList.jsx
+|       |   |-- ProductList.css
+|       |
+|       |-- ProductDetail/
+|       |   |-- ProductDetail.jsx
+|       |   |-- ProductDetail.css
+|       |
+|       |-- Cart/
+|           |-- Cart.jsx
+|           |-- Cart.css
+|
+|-- pages/
+|   |-- Home/
+|   |   |-- Home.jsx
+|   |   |-- Home.css
+|   |
+|   |-- ProductPage/
+|   |   |-- ProductPage.jsx
+|   |   |-- ProductPage.css
+|   |
+|   |-- CartPage/
+|       |-- CartPage.jsx
+|       |-- CartPage.css
+|
+|-- admin/
+|   |-- Login/
+|   |   |-- Login.jsx
+|   |   |-- Login.css
+|   |
+|   |-- Dashboard/
+|       |-- Dashboard.jsx
+|       |-- Dashboard.css
+|
+|-- utils/
+|   |-- api.js
+|   |-- routes.js
+|
+|-- App.js
+|-- index.js
+|-- index.css

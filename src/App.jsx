@@ -1,27 +1,19 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-import Home from './pages/Home/Home';
-import ProductPage from './pages/ProductPage/ProductPage';
-import CartPage from './pages/CartPage/CartPage';
-import AdminLogin from './admin/Login/Login';
-import AdminDashboard from './admin/Dashboard/Dashboard';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Cart from "./pages/CartPage/CartPage";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        {/* User Routes */}
-        <Route exact path="/" component={Home} />
-        <Route path="/product/:productId" component={ProductPage} />
-        <Route path="/cart" component={CartPage} />
-
-        {/* Admin Routes */}
-        <Route path="/admin/login" component={AdminLogin} />
-        <Route path="/admin/dashboard" component={AdminDashboard} />
-
-        {/* Add more routes as needed */}
-      </Switch>
-    </Router>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

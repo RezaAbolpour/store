@@ -1,3 +1,43 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "_regular";
+    src: local('_regular'),url("./assets/font/Yekan-Bakh-FaNum-04-Regular.woff") format('truetype');
+}
+@font-face {
+    font-family: "_medium";
+    src: local('_medium'),url("./assets/font/Yekan-Bakh-FaNum-05-Medium.woff") format('truetype');
+}
+@font-face {
+    font-family: "_bold";
+    src: local('_bold'),url("./assets/font/Yekan-Bakh-FaNum-06-Bold.woff") format('truetype');
+}
+@font-face {
+    font-family: "_heavy";
+    src: local('_heavy'),url("./assets/font/Yekan-Bakh-FaNum-07-Heavy.woff") format('truetype');
+}
+@font-face {
+    font-family: "_fat";
+    src: local('_fat'),url("./assets/font/Yekan-Bakh-FaNum-08-Fat.woff") format('truetype');
+}
+._font-regular{
+    font-family: "_regular" !important;
+}
+._font-medium{
+    font-family: "_medium" !important;
+}
+._font-bold{
+    font-family: "_bold" !important;
+}
+._font-heavy{
+    font-family: "_heavy" !important;
+}
+._font-fat{
+    font-family: "_fat" !important;
+}
