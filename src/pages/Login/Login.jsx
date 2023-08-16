@@ -4,22 +4,28 @@ import LogoheaderMobile from "../../assets/Images/headrerMobileWave.png";
 import { useMediaQuery } from "react-responsive";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import publicAxios from "../../utils/instances/publicAxios";
+import { useNavigate } from "react-router-dom";
 function LoginDesktop() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
+      username: Yup.string()
         .max(15, "Must be 15 characters or less")
-        .required("فیلد ایمیل را پرکنید"),
+        .required("فیلد نام کاربری را پرکنید"),
       password: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("فیلد پسورد را پر کنید"),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      publicAxios.post("/auth/login", values).then((response) => {
+        //navigate("/crad")
+        console.log(response);
+      });
     },
   });
   return (
@@ -72,17 +78,19 @@ function LoginDesktop() {
                 </div>
                 <div className="p-2 w-4/6 h-1/6">
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="username"
+                    name="username"
                     onChange={formik.handleChange}
-                    value={formik.values.email}
+                    value={formik.values.username}
                     onBlur={formik.handleBlur}
-                    placeholder="Enter Email"
+                    placeholder="Enter Username"
                     className="w-full rounded-md h-full pl-2"
                   />
-                  {formik.touched.email && formik.errors.email ? (
-                    <div className="text-red-500 _font-medium">{formik.errors.email}</div>
+                  {formik.touched.username && formik.errors.username ? (
+                    <div className="text-red-500 _font-medium">
+                      {formik.errors.username}
+                    </div>
                   ) : null}
                 </div>
                 <div className="p-2 w-4/6 h-1/6">
@@ -97,13 +105,16 @@ function LoginDesktop() {
                     className="w-full rounded-md h-full pl-2"
                   />
                   {formik.touched.password && formik.errors.password ? (
-                    <div className="text-red-500 _font-medium">{formik.errors.password}</div>
+                    <div className="text-red-500 _font-medium">
+                      {formik.errors.password}
+                    </div>
                   ) : null}
                 </div>
                 <div className="flex mt-10 gap-5 h-1/6 pl-2">
                   <div className="flex items-center justify-center w-2/6">
                     <button
                       className={`${loginStyle.bgGray} w-full h-full rounded-md font-medium `}
+                      type="submit"
                     >
                       Log in
                     </button>
@@ -126,13 +137,13 @@ function LoginDesktop() {
 function LoginMobile() {
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
+      username: Yup.string()
         .max(15, "Must be 15 characters or less")
-        .required("فیلد ایمیل را پرکنید"),
+        .required("فیلد نام کاربری را پرکنید"),
       password: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("فیلد پسورد را پر کنید"),
@@ -152,18 +163,20 @@ function LoginMobile() {
           <p className="text-sm font-medium text-orange-400">ایمیل</p>
           <div className="border-b-orange-400 border-b _font-regular">
             <input
-              id="email"
-              name="email"
+              id="username"
+              name="username"
               onChange={formik.handleChange}
-              value={formik.values.email}
+              value={formik.values.username}
               onBlur={formik.handleBlur}
               type="text"
               placeholder="ایمیل خودتان را وارد کنید"
               className="border-none outline-none"
             />
           </div>
-          {formik.touched.email && formik.errors.email ? (
-            <div className="text-red-500 _font-medium">{formik.errors.email}</div>
+          {formik.touched.username && formik.errors.username ? (
+            <div className="text-red-500 _font-medium">
+              {formik.errors.username}
+            </div>
           ) : null}
         </div>
         <div className="pl-5 pr-5 mt-10">
@@ -181,7 +194,9 @@ function LoginMobile() {
             />
           </div>
           {formik.touched.password && formik.errors.password ? (
-            <div className="text-red-500 _font-medium">{formik.errors.password}</div>
+            <div className="text-red-500 _font-medium">
+              {formik.errors.password}
+            </div>
           ) : null}
         </div>
         <div className="mt-2 flex justify-end pr-5">
