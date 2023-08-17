@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import publicAxios from "../../utils/instances/publicAxios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 const AdminLogin = () => {
   const navigate = useNavigate();
   const formik = useFormik({
@@ -20,8 +21,9 @@ const AdminLogin = () => {
     }),
     onSubmit: (values, { resetForm }) => {
       publicAxios.post("/auth/login", values).then((response) => {
-        //navigate("/crad")
-        alert(response);
+        Cookies.set("accessToken", response.data.token.accessToken);
+        Cookies.set("refreshToken", response.data.token.refreshToken);
+        navigate("/dashboard");
         resetForm();
       });
     },
