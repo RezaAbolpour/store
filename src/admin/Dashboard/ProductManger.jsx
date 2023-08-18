@@ -1,36 +1,18 @@
-import  { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
-
+import { fetchAllProduct } from "../../data/dataslice";
+import { useDispatch, useSelector } from "react-redux";
 //nested data is ok, see accessorKeys in ColumnDef below
-const data = [
-  {
-    brand: "nike",
-    name_product: "261 Erdman Ford",
-    discription: "East Daphne",
-    price: "2500",
-  },
-  {
-    brand: "nike",
-    name_product: "261 Erdman Ford",
-    discription: "East Daphne",
-    price: "2500",
-  },
-  {
-    brand: "nike",
-    name_product: "261 Erdman Ford",
-    discription: "East Daphne",
-    price: "2500",
-  },
-  {
-    brand: "puma",
-    name_product: "261 Erdman Ford",
-    discription: "East Daphne",
-    price: "2500",
-  },
-];
+let data;
 
 const PageInatin = () => {
   //should be memoized or stable
+  const dispach = useDispatch();
+  useEffect(() => {
+    dispach(fetchAllProduct());
+  },[]);
+  const Dat = useSelector((state) => state.data.data);
+  data = Dat;
   const columns = useMemo(
     () => [
       {
@@ -39,18 +21,23 @@ const PageInatin = () => {
         size: 150,
       },
       {
-        accessorKey: "name_product",
+        accessorKey: "name",
         header: "اسم محصول",
         size: 150,
       },
       {
-        accessorKey: "discription", //normal accessorKey
+        accessorKey: "description", //normal accessorKey
         header: "توضیحات",
         size: 200,
       },
       {
         accessorKey: "price",
         header: "قیمت",
+        size: 150,
+      },
+      {
+        accessorKey: "quantity",
+        header: "تعداد",
         size: 150,
       },
     ],
