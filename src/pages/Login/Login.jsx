@@ -40,33 +40,32 @@ function LoginDesktop() {
             <img src={logoLogin} alt="logo" className="w-60 h-10" />
           </div>
           <div className="w-1/6 flex justify-around items-center">
-            <p className="text-blue-700 font-medium">Conditions</p>
-            <p className="text-blue-700 font-medium">Privacy</p>
-            <p className="text-blue-700 font-medium">Help</p>
+            <p className="text-blue-700 font-medium">قوانین</p>
+            <p className="text-blue-700 font-medium">حریم خصوصی</p>
+            <p className="text-blue-700 font-medium">کمک</p>
           </div>
         </div>
         <div className="flex pl-10 h-full">
           <div className="w-3/6">
             <p className="p-10">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum
-              modi velit culpa quisquam iste adipisci quae corrupti voluptas
-              accusamus, quos maxime consequuntur recusandae saepe quo iure quam
-              perferendis reiciendis accusantium.
+              وب‌سایت ما با برخوردهای دست اول و تجربه‌ای منحصربه‌فرد، اجناس با
+              کیفیت بالا و متنوعی را به شما ارائه می‌دهد. ما به افتخار ارایه
+              دهنده محصولاتی هستیم که با دقت و استانداردهای بالا انتخاب می‌شوند
+              و تضمین می‌کنیم که شما تنها بهترین را از ما دریافت خواهید کرد.
             </p>
             <div className="pl-10 h-2/6 w-4/6">
               <div className="rounded-md mt-20 h-full w-full bg-slate-100">
                 <div className="flex flex-col  h-full">
-                  <div className="flex-grow pl-5 flex items-center">
-                    New here?
+                  <div className="flex-grow pl-5 flex items-center" dir="rtl">
+                    حساب ندارید؟
                   </div>
                   <div className="flex-grow  flex items-center pl-5">
                     <button className="bg-blue-300 p-2 rounded text-black font-medium border-solid border-2 border-sky-500 w-5/6">
-                      Create free account amazone
+                      ساخت حساب رایگان آمازون
                     </button>
                   </div>
                   <div className="flex-grow pl-5 flex items-center">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Esoluptatem a.
+                    هرچیزی که بخواهید در اینجا است انواع کتاب ها را نیز میتوانید تهیه کنید
                   </div>
                 </div>
               </div>
@@ -76,7 +75,7 @@ function LoginDesktop() {
             <form onSubmit={formik.handleSubmit}>
               <div className="bg-slate-100 rounded-md h-5/6 w-full">
                 <div className="text-2xl font-medium flex justify-center items-center h-1/6">
-                  Login in to your account
+                  وارد حساب خودتان بشوید
                 </div>
                 <div className="p-2 w-4/6 h-1/6">
                   <input
@@ -86,7 +85,7 @@ function LoginDesktop() {
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     onBlur={formik.handleBlur}
-                    placeholder="Enter Username"
+                    placeholder="نام کاربری"
                     className="w-full rounded-md h-full pl-2"
                   />
                   {formik.touched.username && formik.errors.username ? (
@@ -103,7 +102,7 @@ function LoginDesktop() {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     onBlur={formik.handleBlur}
-                    placeholder="Enter password"
+                    placeholder="رمز عبور"
                     className="w-full rounded-md h-full pl-2"
                   />
                   {formik.touched.password && formik.errors.password ? (
@@ -115,18 +114,19 @@ function LoginDesktop() {
                 <div className="flex mt-10 gap-5 h-1/6 pl-2">
                   <div className="flex items-center justify-center w-2/6">
                     <button
-                      className={`${loginStyle.bgGray} w-full h-full rounded-md font-medium `}
+                      className={`w-full h-full rounded-md font-medium bg-[#EEE0C9]`}
                       type="submit"
                     >
-                      Log in
+                      ورود
                     </button>
                   </div>
                   <p className="w-2/6 flex justify-center items-center">
-                    Lorem ipsum dolor sit amet, consectetur adip
+                    زمانی که وارد میشوید یعنی تمامی قوانین حفظ حریم خصوصی را
+                    قبول کردید
                   </p>
                 </div>
                 <div className="pl-2 mt-5 text-blue-600">
-                  i forgert password
+                  آیا رمز خودتان را فراموش کردید؟
                 </div>
               </div>
             </form>
