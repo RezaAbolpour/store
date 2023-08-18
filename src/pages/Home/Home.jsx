@@ -1,9 +1,8 @@
-function Cart() {
-    return(
-    <>
-      <h1>bye</h1>
-    </>
-    )
+import Header from "./Header"
+function Home() {
+  return (
+    <Header/>
+  )
 }
 
-export default Cart;
+export default Home
