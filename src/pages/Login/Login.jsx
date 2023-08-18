@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import publicAxios from "../../utils/instances/publicAxios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 function LoginDesktop() {
   const navigate = useNavigate();
   const formik = useFormik({
@@ -23,8 +24,9 @@ function LoginDesktop() {
     }),
     onSubmit: (values) => {
       publicAxios.post("/auth/login", values).then((response) => {
-        //navigate("/crad")
-        console.log(response);
+        Cookies.set("accessToken", response.data.token.accessToken);
+        Cookies.set("refreshToken", response.data.token.refreshToken);
+        navigate("/dashboard");
       });
     },
   });

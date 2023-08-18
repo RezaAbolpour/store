@@ -41,3 +41,22 @@
 ._font-fat{
     font-family: "_fat" !important;
 }
+
+/* ایجاد استایل برای المنت اسکرول */
+.scroll-container {
+    
+}
+
+/* استایل برای نوار اسکرول عمودی */
+.scroll-container::-webkit-scrollbar {
+  width: 8px; /* عرض نوار اسکرول */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* رنگ پس زمینه قسمت قابل دیدن اسکرول */
+  border-radius: 4px; /* شکل گوشه‌های اسکرول */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background-color: #f2f2f2; /* رنگ پس زمینه نوار اسکرول */
+}
