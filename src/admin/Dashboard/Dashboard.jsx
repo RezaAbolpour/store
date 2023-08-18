@@ -7,7 +7,7 @@ import iconSetting from "../../assets/Images/imagePanelAdmin/icons8-setting-50.p
 import iconUsers from "../../assets/Images/imagePanelAdmin/icons8-users-30.png";
 import iconInfo from "../../assets/Images/imagePanelAdmin/icons8-information-50.png";
 import iconSupport from "../../assets/Images/imagePanelAdmin/icons8-support-50.png";
-import PageInatin from "./Page";
+import PageProduct from "./ProductManger";
 import { useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -25,17 +25,12 @@ import PermPhoneMsgIcon from "@mui/icons-material/PermPhoneMsg";
 import CableIcon from "@mui/icons-material/Cable";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import DiamondIcon from '@mui/icons-material/Diamond';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import HomeIcon from '@mui/icons-material/Home';
-function MenueBody() {
-  return (
-    <>
-      <div>hellp</div>
-    </>
-  );
-}
+import DiamondIcon from "@mui/icons-material/Diamond";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import Invent from "./Inventory";
+import OrderPag from "./OrderPage";
 function Dashboard() {
+  let action;
   const [showMenu1, setShowMenu1] = useState(false);
   const [showMenu2, setShowMenu2] = useState(false);
   const [showMenu3, setShowMenu3] = useState(false);
@@ -43,7 +38,16 @@ function Dashboard() {
   const [showMenu5, setShowMenu5] = useState(false);
   const [showMenu6, setShowMenu6] = useState(false);
   const [showMenu7, setShowMenu7] = useState(false);
-  const [showMenu8, setShowMenu8] = useState(false);
+  const [item, setitem] = useState(0);
+  const ProductManger = () => {
+    setitem(1);
+  };
+  const getInvetory = () => {
+    setitem(2);
+  };
+  const getOrders = () => {
+    setitem(3);
+  };
   const toggleMenu1 = () => {
     setShowMenu1(!showMenu1);
   };
@@ -65,17 +69,22 @@ function Dashboard() {
   const toggleMenu7 = () => {
     setShowMenu7(!showMenu7);
   };
-  const toggleMenu8 = () => {
-    setShowMenu8(!showMenu8);
-  };
+  if (item == 1) {
+    action = <PageProduct />;
+  } else if (item == 2) {
+    action = <Invent />;
+  }else if(item==3){
+    action = <OrderPag/>
+  }
   return (
     <>
       <Header />
       <div className="h-screen flex _font-heavy">
-        <div className="bg-[#E3FDFD] w-5/6">
-          <PageInatin />
-        </div>
-        <div className="bg-[#33BBC5] w-1/6 shadow-2xl overflow-y-scroll scroll-container" dir="rtl">
+        <div className="bg-[#E3FDFD] w-5/6">{action}</div>
+        <div
+          className="bg-[#33BBC5] w-1/6 shadow-2xl overflow-y-scroll scroll-container"
+          dir="rtl"
+        >
           <div
             className="mt-5 hover:bg-[#A6E3E9] cursor-pointer"
             onClick={toggleMenu1}
@@ -86,9 +95,12 @@ function Dashboard() {
             </div>
             {showMenu1 && (
               <div>
-                <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2">
+                <div
+                  className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2"
+                  onClick={ProductManger}
+                >
                   <AddCircleIcon color="success" />
-                  <div className="text-sm">افزودن محصول</div>
+                  <div className="text-sm">نمایش کل محصولات</div>
                 </div>
                 <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2">
                   <EditNoteIcon color="success" />
@@ -98,7 +110,10 @@ function Dashboard() {
                   <SettingsIcon color="success" />
                   <div className="text-sm">تنظیمات قیمت</div>
                 </div>
-                <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2">
+                <div
+                  className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2"
+                  onClick={getInvetory}
+                >
                   <StorefrontIcon color="success" />
                   <div className="text-sm">موجودی</div>
                 </div>
@@ -119,7 +134,7 @@ function Dashboard() {
             </div>
             {showMenu2 && (
               <div>
-                <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2">
+                <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2" onClick={getOrders}>
                   <RemoveRedEyeIcon color="success" />
                   <div className="text-sm">مشاهده و پیگیری سفارشات</div>
                 </div>
