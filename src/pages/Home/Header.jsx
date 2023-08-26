@@ -8,7 +8,7 @@ function Header() {
   return (
     <div className="bg-slate-950 h-28 pr-3 pl-3 flex _font-bold max-sm:flex-col max-sm:h-44" dir="rtl">
       <div className="w-1/6 flex items-center h-full max-sm:hidden">
-        <img src={logo} alt="" className="h-16" />
+        <img src={logo} alt="" className="h-16 mr-5" />
       </div>
       <div className="flex justify-center flex-col w-1/6 gap-2 max-sm:hidden">
         <div>
