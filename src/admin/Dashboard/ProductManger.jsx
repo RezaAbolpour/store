@@ -2,6 +2,7 @@ import { useMemo, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { fetchAllProduct } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
+import { MRT_Localization_FA } from 'material-react-table/locales/fa';
 //nested data is ok, see accessorKeys in ColumnDef below
 let data;
 
@@ -10,7 +11,7 @@ const PageInatin = () => {
   const dispach = useDispatch();
   useEffect(() => {
     dispach(fetchAllProduct());
-  },[]);
+  }, []);
   const Dat = useSelector((state) => state.data.data);
   data = Dat;
   const columns = useMemo(
@@ -46,7 +47,12 @@ const PageInatin = () => {
 
   return (
     <div className="_font-bold">
-      <MaterialReactTable columns={columns} data={data} />;
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        localization={MRT_Localization_FA}
+      />
+      ;
     </div>
   );
 };
