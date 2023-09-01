@@ -1,10 +1,10 @@
 import { BASE_URL } from "../../configs/urlBase.js";
-import privateAxios from "../instances/privateAxios.js";
+import publicAxios from "../instances/publicAxios.js";
 
 export function GetAllCategori(){
-    return privateAxios.get(`${BASE_URL}/categories`)
+    return publicAxios.get(`${BASE_URL}/categories`)
 }
 
 export function GetSubCategori(){
-    return privateAxios.get(`${BASE_URL}/subcategories`)
+    return publicAxios.get(`${BASE_URL}/subcategories`)
 }
