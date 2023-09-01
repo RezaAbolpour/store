@@ -1,19 +1,23 @@
-import { useMemo, useEffect } from "react";
-import { MaterialReactTable } from "material-react-table";
+import { useMemo, useState, useEffect } from "react";
+import { MantineReactTable } from "mantine-react-table";
+import { MRT_Localization_FA } from "mantine-react-table/locales/fa";
 import { fetchAllProduct } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
-import { MRT_Localization_FA } from 'material-react-table/locales/fa';
-//nested data is ok, see accessorKeys in ColumnDef below
+import { Text } from "@mantine/core";
+import { editProductById } from "../../utils/api/editproduct";
 let data;
-
-const PageInatin = () => {
-  //should be memoized or stable
+const ProductAllManaer = () => {
+  const [load, setload] = useState(false);
   const dispach = useDispatch();
   useEffect(() => {
-    dispach(fetchAllProduct());
-  }, []);
+    console.log("hhhh");
+    dispach(fetchAllProduct()).then(() => {
+      setload(true);
+    });
+  }, [dispach]);
   const Dat = useSelector((state) => state.data.data);
   data = Dat;
+  console.log(Dat);
   const columns = useMemo(
     () => [
       {
@@ -45,16 +49,36 @@ const PageInatin = () => {
     []
   );
 
-  return (
-    <div className="_font-bold">
-      <MaterialReactTable
+  const handleSaveCell = (cell, value) => {
+    console.log(data);
+    console.log(cell.id.split("_")[1]);
+    console.log(cell.row.original._id);
+    const formData = new FormData();
+    formData.append(cell.id.split("_")[1], value);
+    editProductById(cell.row.original._id,formData)
+  };
+  if (load) {
+    return (
+      <MantineReactTable
         columns={columns}
         data={data}
+        editDisplayMode="cell"
+        enableEditing
+        mantineEditTextInputProps={({ cell }) => ({
+          //onBlur is more efficient, but could use onChange instead
+          onBlur: (event) => {
+            handleSaveCell(cell, event.target.value);
+          },
+        })}
+        renderBottomToolbarCustomActions={() => (
+          <Text sx={{ fontStyle: "italic", padding: "0 16px" }}>
+            با دبل کلیک هر سلول را ویرایش کنید
+          </Text>
+        )}
         localization={MRT_Localization_FA}
       />
-      ;
-    </div>
-  );
+    );
+  }
 };
 
-export default PageInatin;
+export default ProductAllManaer;
