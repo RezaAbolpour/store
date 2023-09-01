@@ -3,6 +3,14 @@ import SimpleImageSlider from "react-simple-image-slider";
 import CardProductHome from "./CardProductHome";
 import Liner from "./Liner";
 import CardCategori from "./CardCategori";
+import ProposalCard from "./ProposalCard";
+import ProposalProduct from "./ProposalProduct";
+import CardPdoductFotter from "./CardPdoductFotter";
+import Footer from "./Footer";
+import { fetchAllCategori, fetchSubCategori } from "../../data/dataslice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+let data=[];
 function BodyHome() {
   const [imageNum, setImageNum] = useState(1);
   const sliderImages = [
@@ -13,6 +21,16 @@ function BodyHome() {
       url: "https://hamkala.com/wp-content/uploads/d1.png",
     },
   ];
+  const dispach = useDispatch();
+  useEffect(() => {
+    dispach(fetchAllCategori());
+    dispach(fetchSubCategori());
+  }, []);
+  const Dat = useSelector((state) => state.data.Categori);
+  if (Dat) {
+    data = Dat;
+  }
+  console.log(data);
   return (
     <div className="rounded-lg">
       <SimpleImageSlider
@@ -91,15 +109,65 @@ function BodyHome() {
       </div>
       <Liner />
       <div className="h-56 flex items-center gap-4 justify-around">
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/a8-64x64.png"} name={"ظروف آشپزخانه"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/7a-64x64.png"} name={"سشوار، بابلیس و اتو مو"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/4a-64x64.png"} name={"پفیلا ساز، کیک پز و پیتزا پز"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/micro-64x64.png"} name={"پخت و پز"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/oto-64x64.png"} name={"اتو"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/chaisaz-64x64.png"} name={"ابزار آلات آشپزخانه"}/>
-        <CardCategori img={"https://hamkala.com/wp-content/uploads/5a-64x64.png"} name={"آسیاب و خردکن و مخلوط کن"}/>
+        {console.log(data)}
+        {data.map((item) => (
+          <>
+            <CardCategori
+              img={`http://localhost:8000/images/categories/icons/${item.icon}`}
+              name={`${item.name}`}
+              idCategor={`${item._id}`}
+            />
+          </>
+        ))}
       </div>
       <Liner />
+      <div className="mt-4 pl-10 h-72">
+        <p className="_font-bold text-2xl">پیشنهاد لحظه ای</p>
+        <div className="mt-5 flex justify-around">
+          <ProposalCard />
+          <ProposalCard />
+          <ProposalCard />
+          <ProposalCard />
+        </div>
+      </div>
+      <Liner />
+      <div className="mt-4 pl-10 h-72 flex items-center">
+        <ProposalProduct />
+        <ProposalProduct />
+        <ProposalProduct />
+        <ProposalProduct />
+        <ProposalProduct />
+        <ProposalProduct />
+      </div>
+      <Liner />
+      <div className="mt-4 pl-10 h-96 flex items-center bg-red-500 justify-center gap-4">
+        <CardPdoductFotter />
+        <CardPdoductFotter />
+        <CardPdoductFotter />
+        <CardPdoductFotter />
+      </div>
+      <Liner />
+      <div className="flex pl-10 gap-5">
+        <div className="w-[254px] h-[224px] flex items-center justify-center ml-5 border-solid border-2 border-slate-200 rounded-sm">
+          <img
+            src="https://trustseal.enamad.ir/Content/Images/Star/star1.png?v=5.0.0.47"
+            alt=""
+          />
+        </div>
+        <div className="w-[254px] h-[224px] flex items-center justify-center ml-5 border-solid border-2 border-slate-200 rounded-sm">
+          <img
+            src="https://www.sefareshik.com/files/userfiles/97/Home%20Page/Footer/samandehi.png"
+            alt=""
+          />
+        </div>
+        <div className="w-[890px] h-[224px] flex items-center text-right _font-medium pr-10">
+          فروشگاه اینترنتی همکالا دارای نماد اعتماد الکترونیک از مرکز توسعه
+          تجارت الکترونیک وزارت صنعت، معدن و تجارت و نشان ملی ثبت رسانه های
+          دیجیتال (نماد ساماندهی) می باشد. شما می توانید با اطمینان خاطر از
+          همکالا خرید کنید.
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }
