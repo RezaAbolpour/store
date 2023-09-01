@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { editProductById } from "../../utils/api/editproduct";
+import { removeProductById } from "../../utils/api/removeProduct";
+import CustomizedSnackbars from "./ToastMessage";
 let data = [];
 let keyEditProduct = [
   "name",
@@ -28,47 +30,73 @@ function Modal(props) {
   const [valueDiscription, setValueDiscription] = React.useState(
     props.dataRow.description
   );
-  const [selectedFile, setSelectedFile] = React.useState(
-    props.dataRow.thumbnail
-  );
+  const [selectedFile, setSelectedFile] = React.useState(null);
   const [selectedFilePictur, setSelectedFilePictur] = React.useState(
     props.dataRow.images
   );
+
+  const [valueNameProductForm, setValueNameProductForm] = React.useState(null);
+  const [valuePriceForm, setValuePriceForm] = React.useState(null);
+  const [valueCountForm, setValueCountForm] = React.useState(null);
+  const [valueBrandForm, setValueBrandForm] = React.useState(null);
+  const [valueDiscriptionForm, setValueDiscriptionForm] = React.useState(null);
+  const [selectedFileForm, setSelectedFileForm] = React.useState(null);
+  const [selectedFilePicturForm, setSelectedFilePicturForm] =
+    React.useState(null);
   const SendData = () => {
     let dataform = [
-      valueNameProduct,
-      valuePrice,
-      valueCount,
-      valueBrand,
-      valueDiscription,
-      selectedFile,
+      valueNameProductForm,
+      valuePriceForm,
+      valueCountForm,
+      valueBrandForm,
+      valueDiscriptionForm,
+      selectedFileForm,
     ];
     console.log(selectedFilePictur);
     const formData = new FormData();
     for (let index = 0; index < keyEditProduct.length; index++) {
-      formData.append(keyEditProduct[index], dataform[index]);
+      if (dataform[index] != null) {
+        formData.append(keyEditProduct[index], dataform[index]);
+      }
     }
-    for (let index = 0; index < selectedFilePictur.length - 2; index++) {
-      formData.append("images", selectedFilePictur[index]);
+    try {
+      if (selectedFilePicturForm != null) {
+        for (
+          let index = 0;
+          index < selectedFilePicturForm.length - 2;
+          index++
+        ) {
+          formData.append("images", selectedFilePicturForm[index]);
+        }
+      }
+    } catch (error) {
+      console.log("");
     }
+
+    console.log(dataform);
     editProductById(props.dataRow._id, formData);
+    props.close(null);
   };
   function handlcount(event) {
     const value = event.target.value;
     console.log(value);
+    setValueCountForm(value);
     setValueCount(value);
   }
   function handlprice(event) {
     const value = event.target.value;
     console.log(value);
+    setValuePriceForm(value);
     setValuePrice(value);
   }
   function handlnameproduct(event) {
     const value = event.target.value;
     console.log(value);
+    setValueNameProductForm(value);
     setValueNameProduct(value);
   }
   function handleFileChangePriviewPicture(event) {
+    setSelectedFileForm(event.target.files[0]);
     setSelectedFile(event.target.files[0]);
     console.log(selectedFile);
   }
@@ -77,14 +105,17 @@ function Modal(props) {
     for (let key in event.target.files) {
       file.push(event.target.files[key]);
     }
+    setSelectedFilePicturForm(file);
     setSelectedFilePictur(file);
   }
   function handlediscription(event) {
     const discripton = event.target.value;
+    setValueDiscriptionForm(discripton);
     setValueDiscription(discripton);
   }
   function handlbrand() {
     const value = event.target.value;
+    setValueBrandForm(value);
     setValueBrand(value);
   }
   function closemodal() {
@@ -140,7 +171,7 @@ function Modal(props) {
           <div className="w-4/6 p-2 flex gap-2">
             {console.log(props.dataRow.thumbnail)}
             <img
-            className="outline outline-offset-2 outline-2 rounded-sm outline-cyan-500"
+              className="outline outline-offset-2 outline-2 rounded-sm outline-cyan-500"
               alt="avatar"
               src={`http://localhost:8000/images/products/images/${props.dataRow.thumbnail[0]}`}
               style={{ width: "20%", height: "100%", objectFit: "cover" }}
@@ -196,14 +227,18 @@ function Modal(props) {
   );
 }
 const Example = () => {
+  const[showmessage,setshowmessage]=useState(0)
   const [modal, setShowModal] = useState(null);
+  const [load, setload] = useState(0);
   const dispach = useDispatch();
   useEffect(() => {
-    dispach(fetchAllProduct());
-  }, []);
+    dispach(fetchAllProduct()).then(()=>{console.log("ok");});
+  }, [load]);
   const Dat = useSelector((state) => state.data.data);
-  console.log(Dat);
   data = Dat;
+  setInterval(() => {
+    setload(load+1)
+  }, 5000);
   const handleEdit = (datarow) => {
     if (modal) {
       setShowModal(null);
@@ -214,7 +249,8 @@ const Example = () => {
   };
 
   const handleDelete = (id) => {
-    alert("حذف محصول با آیدی: " + id);
+    removeProductById(id)
+    setshowmessage(1)
   };
 
   const columns = useMemo(
@@ -285,7 +321,7 @@ const Example = () => {
             <Tooltip arrow placement="right" title="حذف">
               <IconButton
                 color="error"
-                onClick={() => handleDelete(row.original.name)}
+                onClick={() => handleDelete(row.original._id)}
               >
                 <Delete />
               </IconButton>
@@ -293,6 +329,7 @@ const Example = () => {
           </Box>
         )}
       />
+      {showmessage?(<CustomizedSnackbars open={true} type={"error"} message={"با موفقیت حذف شد"} fun={setshowmessage} />):console.log("opps")}
     </div>
   );
 };
