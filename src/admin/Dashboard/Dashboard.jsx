@@ -7,7 +7,6 @@ import iconSetting from "../../assets/Images/imagePanelAdmin/icons8-setting-50.p
 import iconUsers from "../../assets/Images/imagePanelAdmin/icons8-users-30.png";
 import iconInfo from "../../assets/Images/imagePanelAdmin/icons8-information-50.png";
 import iconSupport from "../../assets/Images/imagePanelAdmin/icons8-support-50.png";
-import PageProduct from "./ProductManger";
 import { useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -31,6 +30,7 @@ import Invent from "./Inventory";
 import OrderPag from "./OrderPage";
 import AddProduct from "./AddProduct";
 import EditDeletProduct from "./EditDeletProduct";
+import ProductAllManaer from "./ProductManger";
 function Dashboard() {
   let action;
   const [showMenu1, setShowMenu1] = useState(false);
@@ -78,7 +78,7 @@ function Dashboard() {
     setShowMenu7(!showMenu7);
   };
   if (item == 1) {
-    action = <PageProduct />;
+    action = <ProductAllManaer/>
   } else if (item == 2) {
     action = <Invent />;
   } else if (item == 3) {
