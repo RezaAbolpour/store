@@ -3,10 +3,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { addProduct } from "../../utils/api/addproduct";
-import dataslice, {
-  fetchAllCategori,
-  fetchSubCategori,
-} from "../../data/dataslice";
+import { fetchAllCategori, fetchSubCategori } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 const filter = createFilterOptions();
@@ -23,6 +20,7 @@ const keyAddProduct = [
   "description",
   "thumbnail",
 ];
+
 export default function FreeSoloCreateOption() {
   const [valueCategori, setValueCategori] = React.useState(null);
   const [valueSubCategori, setValueSubCategori] = React.useState(null);
@@ -133,9 +131,29 @@ export default function FreeSoloCreateOption() {
         selectedFile,
       ];
       SendData(valueForm);
+      setValueCategori(null);
+      setValueSubCategori(null);
+      setValueBrand("");
+      setValueNameProduct("");
+      setValueCount("");
+      setValueDiscription("");
+      setValuePrice("");
+      setSelectedFilePictur("");
+      setSelectedFilePictur("");
     } else {
       alert("no");
     }
+  }
+  function handeldelet() {
+    setValueCategori(null);
+    setValueSubCategori(null);
+    setValueBrand("");
+    setValueNameProduct("");
+    setValueCount("");
+    setValueDiscription("");
+    setValuePrice("");
+    setSelectedFilePictur("");
+    setSelectedFilePictur("");
   }
   return (
     <div className="w-full flex flex-col gap-6">
@@ -265,14 +283,14 @@ export default function FreeSoloCreateOption() {
           id="outlined-uncontrolled"
           label="قیمت"
           onChange={handlprice}
-          defaultValue={valuePrice}
+          value={valuePrice}
           style={{ width: 300 }}
         />
         <TextField
           id="outlined-uncontrolled"
           label="نام کالا"
           onChange={handlnameproduct}
-          defaultValue={valueNameProduct}
+          value={valueNameProduct}
           style={{ width: 300 }}
         />
       </div>
@@ -282,14 +300,14 @@ export default function FreeSoloCreateOption() {
           id="outlined-uncontrolled"
           label="تعداد"
           onChange={handlcount}
-          defaultValue={valueCount}
+          value={valueCount}
           style={{ width: 300 }}
         />
         <TextField
           id="outlined-uncontrolled"
           label="برند"
           onChange={handlbrand}
-          defaultValue={valueBrand}
+          value={valueBrand}
           style={{ width: 300 }}
         />
       </div>
@@ -326,10 +344,10 @@ export default function FreeSoloCreateOption() {
       <div className="pl-[48px] pr-[48px] h-[155px] flex">
         <div className="flex flex-col h-full justify-center gap-5">
           <Button variant="contained" color="success" onClick={handlsubmit}>
-            Success
+            تایید
           </Button>
-          <Button variant="outlined" color="error">
-            Error
+          <Button variant="outlined" color="error" onClick={handeldelet}>
+            حذف
           </Button>
         </div>
         <div className="h-full w-full ml-2">
