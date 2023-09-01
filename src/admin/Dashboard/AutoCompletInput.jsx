@@ -6,6 +6,7 @@ import { addProduct } from "../../utils/api/addproduct";
 import { fetchAllCategori, fetchSubCategori } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import CustomizedSnackbars from "./ToastMessage";
 const filter = createFilterOptions();
 
 let data = [];
@@ -22,6 +23,7 @@ const keyAddProduct = [
 ];
 
 export default function FreeSoloCreateOption() {
+  const[showmessage,setshowmessage]=React.useState(0)
   const [valueCategori, setValueCategori] = React.useState(null);
   const [valueSubCategori, setValueSubCategori] = React.useState(null);
   const [valueNameProduct, setValueNameProduct] = React.useState(null);
@@ -29,7 +31,7 @@ export default function FreeSoloCreateOption() {
   const [valueBrand, setValueBrand] = React.useState(null);
   const [valueCount, setValueCount] = React.useState(null);
   const [valueDiscription, setValueDiscription] = React.useState(null);
-  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [selectedFile, setSelectedFile] = React.useState("");
   const [selectedFilePictur, setSelectedFilePictur] = React.useState(null);
   console.log(valueCategori, valueSubCategori);
   console.log(selectedFilePictur);
@@ -87,11 +89,12 @@ export default function FreeSoloCreateOption() {
     console.log(selectedFile);
   }
   function handleFileChangePicture(event) {
-    let file = [];
-    for (let key in event.target.files) {
-      file.push(event.target.files[key]);
-    }
-    setSelectedFilePictur(file);
+    // let file = [];
+    // for (let key in event.target.files) {
+    //   file.push(event.target.files[key]);
+    // }
+    setSelectedFilePictur(event.target.files);
+    console.log(selectedFilePictur);
   }
   function handlediscription(event) {
     const discripton = event.target.value;
@@ -102,9 +105,12 @@ export default function FreeSoloCreateOption() {
     for (let index = 0; index < keyAddProduct.length; index++) {
       formData.append(keyAddProduct[index], dataform[index]);
     }
-    for (let index = 0; index < selectedFilePictur.length - 2; index++) {
+    for (let index = 0; index < selectedFilePictur.length; index++) {
       formData.append("images", selectedFilePictur[index]);
     }
+    // for (let index = 0; index < selectedFilePictur.length - 2; index++) {
+    //   formData.append("images", selectedFilePictur[index]);
+    // }
     addProduct(formData);
   };
 
@@ -138,8 +144,9 @@ export default function FreeSoloCreateOption() {
       setValueCount("");
       setValueDiscription("");
       setValuePrice("");
-      setSelectedFilePictur("");
-      setSelectedFilePictur("");
+      setSelectedFilePictur(null);
+      setSelectedFilePictur(null);
+      setshowmessage(1)
     } else {
       alert("no");
     }
@@ -152,7 +159,7 @@ export default function FreeSoloCreateOption() {
     setValueCount("");
     setValueDiscription("");
     setValuePrice("");
-    setSelectedFilePictur("");
+    setSelectedFilePictur(null);
     setSelectedFilePictur("");
   }
   return (
@@ -320,6 +327,7 @@ export default function FreeSoloCreateOption() {
           <span className="text-sm w-2/6 text-center">انتخاب تصویر</span>
           <div className="w-4/6">
             <input
+              // value={selectedFilePictur}
               name="upload-photo"
               type="file"
               multiple
@@ -352,6 +360,7 @@ export default function FreeSoloCreateOption() {
         </div>
         <div className="h-full w-full ml-2">
           <textarea
+            value={valueDiscription}
             onChange={handlediscription}
             name=""
             id=""
@@ -361,6 +370,7 @@ export default function FreeSoloCreateOption() {
           ></textarea>
         </div>
       </div>
+      {showmessage?(<CustomizedSnackbars open={true} type={"success"} message={"با موفقیت اضافه شد"} fun={setshowmessage} />):console.log("opps")}
     </div>
   );
 }
