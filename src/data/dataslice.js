@@ -3,14 +3,21 @@ import { GetAllProduct } from "../utils/api/getProduct";
 import { GetAllCategori } from "../utils/api/getCategori";
 import { GetSubCategori } from "../utils/api/getCategori";
 import { GetProductId } from "../utils/api/getProductId";
+import { getOredrById } from "../utils/api/getOrderByUserId";
 const initialState = {
   data: 0,
-  Categori:0,
-  subCategori:0,
-  product:0,
+  Categori: 0,
+  subCategori: 0,
+  product: 0,
+  userdata: 0,
+  order:[]
 };
 export const fetchAllProduct = createAsyncThunk("product", async () => {
   return await GetAllProduct();
+});
+
+export const fetchAllOrder = createAsyncThunk("Order", async (id) => {
+  return await getOredrById(id);
 });
 
 export const fetchProductId = createAsyncThunk("productId", async (id) => {
@@ -28,7 +35,16 @@ export const fetchSubCategori = createAsyncThunk("subCategori", async () => {
 export const dataslice = createSlice({
   name: "data",
   initialState,
-  reducers: {},
+  reducers: {
+    setuser: (state, action) => {
+      state.userdata = action.payload;
+      console.log(state.userdata);
+    },
+    setorder: (state, action) => {
+      state.order.push(action.payload)
+      console.log(state.order);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProduct.fulfilled, (state, action) => {
       state.data = action.payload.data.data.products;
@@ -49,7 +65,14 @@ export const dataslice = createSlice({
       state.product = action.payload.data.data.product;
       // console.log(state.product);
     });
+
+    builder.addCase(fetchAllOrder.fulfilled, (state, action) => {
+      state.order = action.payload.data.data.orders;
+      // console.log(state.product);
+    });
   },
 });
 
+export const { setuser } = dataslice.actions;
+export const { setorder } = dataslice.actions;
 export default dataslice.reducer;
