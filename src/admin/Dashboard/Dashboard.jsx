@@ -27,10 +27,11 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import Invent from "./Inventory";
-import OrderPag from "./OrderPage";
-import AddProduct from "./AddProduct";
 import EditDeletProduct from "./EditDeletProduct";
-import ProductAllManaer from "./ProductManger";
+import ProM2 from "./ProM2";
+import ModalAddProduct from "./ModalAddProduct";
+import OrderPage from "./OrderPage";
+import MainOrderPage from "./MainOrderPage";
 function Dashboard() {
   let action;
   const [showMenu1, setShowMenu1] = useState(false);
@@ -53,9 +54,9 @@ function Dashboard() {
   const addProduct = () => {
     setitem(4);
   };
-  const editDeletProduct=()=>{
+  const editDeletProduct = () => {
     setitem(5);
-  }
+  };
   const toggleMenu1 = () => {
     setShowMenu1(!showMenu1);
   };
@@ -78,14 +79,16 @@ function Dashboard() {
     setShowMenu7(!showMenu7);
   };
   if (item == 1) {
-    action = <ProductAllManaer/>
+    // action = <ProductAllManaer/>
+    action = <ProM2 />;
   } else if (item == 2) {
     action = <Invent />;
   } else if (item == 3) {
-    action = <OrderPag />;
+    action = <MainOrderPage />;
   } else if (item == 4) {
-    action = <AddProduct />;
-  }else if (item == 5) {
+    // action = <AddProduct />;
+    action = <ModalAddProduct showModal={""} funAllProduct={setitem} />;
+  } else if (item == 5) {
     action = <EditDeletProduct />;
   }
   return (
@@ -114,7 +117,10 @@ function Dashboard() {
                   <AddCircleIcon color="success" />
                   <div className="text-sm">نمایش کل محصولات</div>
                 </div>
-                <div className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2" onClick={editDeletProduct}>
+                <div
+                  className="flex items-center _font-medium mt-1 mr-3 hover:bg-[#fff] ml-3 rounded-sm mb-3 p-2"
+                  onClick={editDeletProduct}
+                >
                   <EditNoteIcon color="success" />
                   <div className="text-sm">ویرایش و حذف محصولات</div>
                 </div>
