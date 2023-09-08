@@ -1,9 +1,22 @@
 import StarPurple500Icon from "@mui/icons-material/StarPurple500";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import ModalMessage from "./ModalMessage";
+import { useDispatch } from "react-redux";
+import { setorder } from "../../data/dataslice";
 function ProductSubCategori(propse) {
+  const [showModal,setShowModal]=useState(false)
   let link = `/product/${propse.dataProduct._id}`;
+  const dispach=useDispatch()
+  function addbox(idProduct){
+    setShowModal(true)
+    dispach(setorder(idProduct))
+  }
+  function closeModal(){
+    setShowModal(false)
+  }
   return (
-    <div className="w-1/6 p-1 border-l-2 border-b-2 border-slate-300">
+    <div className={`w-2/6 p-1 border-l-2 border-b-2 border-slate-300 }`}>
       <div className="pt-1">
         <Link to={link}>
           <div className="flex justify-center">
@@ -36,12 +49,15 @@ function ProductSubCategori(propse) {
           <StarPurple500Icon sx={{ color: "#FC0", width: "25px" }} />
           <soan className="text-xs text-slate-300">از0 رای</soan>
         </div>
-        <div className="w-3/6 flex justify-end">
-          <div className="bg-yellow-500 w-10 flex justify-center items-center rounded-md text-2xl text-white">
+        <div className="w-3/6 flex justify-end cursor-pointer">
+          <div className="bg-yellow-500 w-10 flex justify-center items-center rounded-md text-2xl text-white" onClick={()=>addbox(propse.dataProduct._id)}>
             +
           </div>
         </div>
       </div>
+      {showModal &&(
+        <ModalMessage onCloce={closeModal}/>
+      )}
     </div>
   );
 }
