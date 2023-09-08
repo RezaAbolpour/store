@@ -1,8 +1,8 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import * as React from "react";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -10,24 +10,29 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 export default function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(props.open);
-  
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
   setTimeout(() => {
-    props.fun(0)
+    props.fun(0);
   }, 5000);
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
+    <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar open={open} autoHideDuration={2000}>
-        <Alert onClose={handleClose} severity={props.type} sx={{ width: '100%' }}>
-          {props.message}
-        </Alert>
+        <div className="_font-bold">
+          <Alert
+            onClose={handleClose}
+            severity={props.type}
+            sx={{ width: "100%"}}
+          >
+            {props.message}
+          </Alert>
+        </div>
       </Snackbar>
     </Stack>
   );
