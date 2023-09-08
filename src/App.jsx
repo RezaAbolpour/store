@@ -9,12 +9,16 @@ import ProductPage from "./pages/ProductPage/ProductPage";
 import { Navigate } from "react-router-dom";
 import Product from "./pages/ProductPage/Product";
 import ProductPageSub from "./pages/ProductPage/ProducPageCategori";
+import CheckOut from "./pages/CartPage/checkout";
+import PaymentGateway from "./pages/CartPage/PaymentGateway";
+import PaymentOk from "./pages/CartPage/PaymentOk";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckOut />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/" element={<Home />} />
@@ -23,6 +27,8 @@ function App() {
           <Route path="/product-categori/*" element={<ProductPage/>}/>
           <Route path="/product-subCategori/*" element={<ProductPageSub/>}/>
           <Route path="/product/*" element={<Product/>}/>
+          <Route path="/payment" element={<PaymentGateway/>}/>
+          <Route path="/paymentok" element={<PaymentOk/>}/>
           <Route path="*" element={<NoPage/>} />
         </Routes>
       </BrowserRouter>
