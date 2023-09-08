@@ -10,7 +10,12 @@ import Footer from "./Footer";
 import { fetchAllCategori, fetchSubCategori } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-let data=[];
+import { getProductSubCategory } from "../../utils/api/getProduct";
+let data = [];
+let ProposalProductData = [];
+let ProposalCardData = [];
+let CardProductHomeData = [];
+let CardPdoductFotterData = [];
 function BodyHome() {
   const [imageNum, setImageNum] = useState(1);
   const sliderImages = [
@@ -30,7 +35,20 @@ function BodyHome() {
   if (Dat) {
     data = Dat;
   }
-  console.log(data);
+
+  getProductSubCategory("64f6bd4282864e2299ecb7a2").then((res) => {
+    ProposalProductData = res.data.data.products;
+  });
+  getProductSubCategory("64f0e7c1e75e72c0bbf43799").then((res) => {
+    ProposalCardData = res.data.data.products;
+  });
+  getProductSubCategory("64f6bc0f82864e2299ecb79e").then((res) => {
+    CardProductHomeData = res.data.data.products;
+  });
+  getProductSubCategory("64f9754344980af692131abb").then((res) => {
+    CardPdoductFotterData = res.data.data.products;
+  });
+  console.log(ProposalCardData);
   return (
     <div className="rounded-lg">
       <SimpleImageSlider
@@ -96,10 +114,11 @@ function BodyHome() {
         </div>
       </div>
       <div className="bg-yellow-500 h-96 flex items-center  justify-around">
-        <CardProductHome />
-        <CardProductHome />
-        <CardProductHome />
-        <CardProductHome />
+        {CardProductHomeData.map((item) => (
+          <>
+            <CardProductHome data={item} />
+          </>
+        ))}
         <div className=" w-1/6">
           <img
             src="https://hamkala.com/wp-content/uploads/amazing-typo.png"
@@ -124,27 +143,28 @@ function BodyHome() {
       <div className="mt-4 pl-10 h-72">
         <p className="_font-bold text-2xl">پیشنهاد لحظه ای</p>
         <div className="mt-5 flex justify-around">
-          <ProposalCard />
-          <ProposalCard />
-          <ProposalCard />
-          <ProposalCard />
+          {ProposalCardData.map((item) => (
+            <>
+              <ProposalCard data={item} />
+            </>
+          ))}
         </div>
       </div>
       <Liner />
       <div className="mt-4 pl-10 h-72 flex items-center">
-        <ProposalProduct />
-        <ProposalProduct />
-        <ProposalProduct />
-        <ProposalProduct />
-        <ProposalProduct />
-        <ProposalProduct />
+        {ProposalProductData.map((item) => (
+          <>
+            <ProposalProduct data={item} />
+          </>
+        ))}
       </div>
       <Liner />
       <div className="mt-4 pl-10 h-96 flex items-center bg-red-500 justify-center gap-4">
-        <CardPdoductFotter />
-        <CardPdoductFotter />
-        <CardPdoductFotter />
-        <CardPdoductFotter />
+        {CardPdoductFotterData.map((item) => (
+          <>
+            <CardPdoductFotter data={item}/>
+          </>
+        ))}
       </div>
       <Liner />
       <div className="flex pl-10 gap-5">
