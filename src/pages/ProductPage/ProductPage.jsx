@@ -6,6 +6,7 @@ import { fetchAllCategori, fetchSubCategori } from "../../data/dataslice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
+import CategoryList from "./MenuCategoryCard";
 
 function ProductPage() {
   let nameCategori = "";
@@ -18,14 +19,14 @@ function ProductPage() {
     console.log("ok");
     dispach(fetchAllCategori());
     dispach(fetchSubCategori()).then(() => {
-      setloading(true)
+      setloading(true);
     });
   }, [dispach]);
   // dispach(fetchAllCategori());
   //   dispach(fetchSubCategori());
-  const dataComplet =useSelector((state) => state.data);
-  const Dat =  dataComplet.Categori;
-  const DatSub =  dataComplet.subCategori;
+  const dataComplet = useSelector((state) => state.data);
+  const Dat = dataComplet.Categori;
+  const DatSub = dataComplet.subCategori;
   console.log(Dat);
   if (loading) {
     Dat.forEach((item) => {
@@ -46,16 +47,22 @@ function ProductPage() {
         <div className="h-[78px] pr-5 pl-5 flex items-center" dir="rtl">
           <span className="_font-bold">{nameCategori}</span>
         </div>
-        <div
-          className="bg-white h-auto mr-10 ml-10 rounded-md border-solid border-2 border-gray-200 hadow-2xl flex flex-wrap"
-          dir="rtl"
-        >
-          {dataSubCategori.map((item) => (
-            <>
-              <ProductCategori dataProduct={item} />
-            </>
-          ))}
+        <div className="flex  pl-10 pr-10" dir="rtl">
+          <div className="flex justify-start rounded-md border-solid border-2 border-gray-200 shadow-2xl h-[500px] overflow-y-scroll">
+            <CategoryList/>
+          </div>
+          <div
+            className="h-auto flex-grow-[2] rounded-md border-solid border-2 border-gray-200 shadow-2xl flex flex-wrap items-center justify-center gap-1"
+            dir="rtl"
+          >
+            {dataSubCategori.map((item) => (
+              <>
+                <ProductCategori dataProduct={item} />
+              </>
+            ))}
+          </div>
         </div>
+
         <div className="h-[93px] border-solid border-2 border-gray-200 shadow-2xl rounded-md ml-10 mr-10 flex items-center justify-end pr-10 _font-bold mt-5">
           {nameCategori}
         </div>
