@@ -1,7 +1,19 @@
 import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyIcon from "@mui/icons-material/Key";
+import Badge from "./Badge";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchAllOrder } from "../../data/dataslice";
+console.log(Cookies.get("id"));
 function Header() {
+  const dispach = useDispatch();
+  useEffect(() => {
+    dispach(fetchAllOrder(Cookies.get("id"))).then((res) => {
+      console.log(res);
+    });
+  },[dispach]);
   return (
     <div className="h-[174px] bg-red-500">
       <div className="h-[55px] bg-[#EDEDED]"></div>
@@ -19,11 +31,12 @@ function Header() {
             />
           </div>
         </div>
-        <div className="w-2/6 flex items-center justify-end">
+        <div className="w-2/6 flex items-center justify-end gap-2">
           <div className="h-[50px] w-[150px] border-solid border-2 border-gray-200 shadow-2xl rounded-md flex items-center justify-center gap-3">
             <KeyIcon />
             <p className="_font-bold">ورود / ثبت نام </p>
           </div>
+          <Badge />
         </div>
       </div>
       <div className="h-[45px] bg-[#EDEDED] flex items-center justify-end gap-5 pr-5">
