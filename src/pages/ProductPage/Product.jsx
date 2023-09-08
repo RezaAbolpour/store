@@ -9,21 +9,80 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ShieldIcon from "@mui/icons-material/Shield";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DescriptionIcon from "@mui/icons-material/Description";
-import { fetchProductId } from "../../data/dataslice";
+import { fetchAllOrder, fetchProductId, setorder } from "../../data/dataslice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import ModalImage from "./ModalImage";
+import ModalMessageHome from "../Home/ModalMessageHome";
+import { creatNewOrder } from "../../utils/api/addNewOrder";
+import Cookies from "js-cookie";
+import CustomizedSnackbars from "../../admin/Dashboard/ToastMessage";
 function Product() {
+  const [showmessage, setshowmessage] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const dispach = useDispatch();
+  const [isModalOpne, setIsModalOpen] = useState(false);
+  const [imageModal, setImageModal] = useState("");
+  const [count, setcount] = useState(1);
   const idSubCatergoti = useLocation().pathname.split("/")[2];
   const [loading, setloading] = useState(false);
-  const dispach = useDispatch();
+  const order = useSelector((state) => state.data.order);
+
   useEffect(() => {
     dispach(fetchProductId(idSubCatergoti)).then(() => {
       setloading(true);
     });
   }, [dispach]);
+  async function addbox(idProduct) {
+    try {
+      if (!order.find((item) => item.products[0].product == idProduct)) {
+        const body = {
+          user: Cookies.get("id"),
+          products: [
+            {
+              product: idProduct,
+              count: count,
+            },
+          ],
+          deliveryStatus: false,
+        };
+        await creatNewOrder(body);
+        dispach(fetchAllOrder(Cookies.get("id"))).then((res) => {
+          console.log(res);
+        });
+        setShowModal(true);
+        return
+      }
+    } catch (error) {
+      console.log(5);
+    }
+    setshowmessage(1);
+    // dispach(setorder({ id: idProduct, count: count }));
+  }
+  function closeModalBox() {
+    setShowModal(false);
+  }
   let DatAllProduct = useSelector((state) => state.data.product);
   console.log(DatAllProduct);
+  function openModal(event) {
+    let addredd = event.target.getAttribute("data-id");
+    setIsModalOpen(true);
+    setImageModal(addredd);
+  }
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+  function pluse() {
+    if (count < parseInt(DatAllProduct.quantity)) {
+      setcount(count + 1);
+    }
+  }
+  function mines() {
+    if (count != 1) {
+      setcount(count - 1);
+    }
+  }
   if (loading) {
     return (
       <div>
@@ -34,7 +93,7 @@ function Product() {
             <span className="_font-bold">{DatAllProduct.name}</span>
           </span>
         </div>
-        <div className="h-[600px] flex">
+        <div className="h-[350px] flex">
           <div className="w-[66%] flex gap-8" dir="rtl">
             <div className="w-[60%] h-[320px]">
               <h1 className="_font-bold">{DatAllProduct.name}</h1>
@@ -87,34 +146,63 @@ function Product() {
               </div>
               <div className="mt-2 flex h-[50px] items-center gap-5">
                 <div className="w-[30%] rounded-md h-full flex items-center justify-between pl-2 pr-2 border-solid border-2 border-gray-200">
-                  <div>+</div>
-                  <div>1</div>
-                  <div>-</div>
+                  <div onClick={pluse} className="cursor-pointer">
+                    +
+                  </div>
+                  <div>{count}</div>
+                  <div onClick={mines} className="cursor-pointer">
+                    -
+                  </div>
                 </div>
-                <div className="w-[70%] rounded-md h-full flex justify-center items-center text-white _font-bold bg-yellow-500">
+                <div
+                  className="w-[70%] rounded-md h-full flex justify-center items-center text-white _font-bold bg-yellow-500"
+                  onClick={() => addbox(DatAllProduct._id)}
+                >
                   افزودن به سبد خرید
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-[34%] flex pt-5" dir="rtl">
-            <div className="flex flex-col gap-8">
-              <FavoriteBorderIcon sx={{ color: "#9C9C9C", width: "50px" }} />
-              <TelegramIcon sx={{ color: "#9C9C9C", width: "50px" }} />
-              <NotificationsActiveIcon
-                sx={{ color: "#9C9C9C", width: "50px" }}
-              />
-              <CompareArrowsIcon sx={{ color: "#9C9C9C", width: "50px" }} />
-              <TimelineIcon sx={{ color: "#9C9C9C", width: "50px" }} />
-              <PlayArrowIcon sx={{ color: "#9C9C9C", width: "50px" }} />
-            </div>
-            <div className="w-[410px]">
-              <img
-                src={`http://localhost:8000/images/products/images/${DatAllProduct.images[1]}`}
-                alt=""
-              />
+          <div className="w-[34%]  pt-5" dir="rtl">
+            <div className="flex">
+              <div className="flex flex-col gap-8">
+                <FavoriteBorderIcon sx={{ color: "#9C9C9C", width: "50px" }} />
+                <TelegramIcon sx={{ color: "#9C9C9C", width: "50px" }} />
+                <NotificationsActiveIcon
+                  sx={{ color: "#9C9C9C", width: "50px" }}
+                />
+                <CompareArrowsIcon sx={{ color: "#9C9C9C", width: "50px" }} />
+                <TimelineIcon sx={{ color: "#9C9C9C", width: "50px" }} />
+                <PlayArrowIcon sx={{ color: "#9C9C9C", width: "50px" }} />
+              </div>
+              <div className="w-[410px]">
+                <img
+                  src={`http://localhost:8000/images/products/images/${DatAllProduct.images[1]}`}
+                  alt=""
+                />
+              </div>
             </div>
           </div>
+        </div>
+        {console.log(DatAllProduct.images)}
+        <div
+          className="bg-[#F7F7F7] rounded-md h-[250px] mt-5 mb-5 flex items-center mr-5 ml-5 gap-2"
+          dir="rtl"
+        >
+          {DatAllProduct.images.map((image) => (
+            <>
+              <img
+                className="h-[150px] max-w-lg transition-all duration-300 rounded-lg blur-sm hover:blur-none"
+                src={`http://localhost:8000/images/products/images/${image}`}
+                alt="image description"
+                onClick={openModal}
+                data-id={`http://localhost:8000/images/products/images/${image}`}
+              />
+            </>
+          ))}
+          {isModalOpne && (
+            <ModalImage onClose={closeModal} imageUrl={imageModal} />
+          )}
         </div>
         <div className="flex gap-2 flex-col pl-10 pr-10 " dir="rtl">
           <div className="flex items-center gap-2">
@@ -132,6 +220,17 @@ function Product() {
           </div>
         </div>
         <Footer />
+        {showModal && <ModalMessageHome onCloce={closeModalBox} />}
+        {showmessage ? (
+          <CustomizedSnackbars
+            open={true}
+            type={"error"}
+            message={"این محصول قبلا افزوده شده است"}
+            fun={setshowmessage}
+          />
+        ) : (
+          console.log("opps")
+        )}
       </div>
     );
   }
