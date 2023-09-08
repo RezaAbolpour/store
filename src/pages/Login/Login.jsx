@@ -7,7 +7,10 @@ import * as Yup from "yup";
 import publicAxios from "../../utils/instances/publicAxios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setuser } from "../../data/dataslice";
 function LoginDesktop() {
+  const dispach = useDispatch()
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -23,10 +26,16 @@ function LoginDesktop() {
         .required("فیلد پسورد را پر کنید"),
     }),
     onSubmit: (values) => {
+      console.log(values);
       publicAxios.post("/auth/login", values).then((response) => {
         Cookies.set("accessToken", response.data.token.accessToken);
         Cookies.set("refreshToken", response.data.token.refreshToken);
-        navigate("/dashboard");
+        Cookies.set("id", response.data.data.user._id);
+        Cookies.set("username", response.data.data.user.username);
+        Cookies.set("paswd", response.data.data.user.password);
+        dispach(setuser(response.data.data.user))
+        // console.log(response.data.data.user);
+        navigate("/");
       });
     },
   });
